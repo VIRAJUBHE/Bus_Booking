@@ -1,0 +1,48 @@
+package com.busbooking.controller;
+
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.busbooking.entity.Booking;
+
+import com.busbooking.service.BookingService;
+
+@RestController
+@RequestMapping("/bookings")
+@CrossOrigin(origins = "http://localhost:4200")
+public class BookingController {
+
+    @Autowired
+    private BookingService bookingService;
+
+    @PostMapping("/book")
+    public Booking bookSeats(@RequestParam int userId,
+                             @RequestParam int busId,
+                             @RequestBody List<Integer> seatNumbers) {
+
+        return bookingService.bookSeats(userId, busId, seatNumbers);
+    }
+    
+    @GetMapping("/booked-seats/{busId}")
+    public List<Integer> getBookedSeats(@PathVariable int busId) {
+        return bookingService.getBookedSeatNumbers(busId);
+    }
+    
+    @GetMapping("/{userId}")
+    public List<Booking> getUserBookings(@PathVariable int userId) {
+        return bookingService.getBookingsByUser(userId);
+    }
+    
+    @PutMapping("/cancel/{bookingId}")
+    public Map<String, String> cancelBooking(@PathVariable int bookingId) {
+
+        String message = bookingService.cancelBooking(bookingId);
+
+        return Map.of("message", message);
+    }
+    
+}

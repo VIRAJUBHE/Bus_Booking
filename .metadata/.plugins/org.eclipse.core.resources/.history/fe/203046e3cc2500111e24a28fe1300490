@@ -1,0 +1,81 @@
+package com.busbooking.controller;
+
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.busbooking.entity.User;
+import com.busbooking.repository.UserRepository;
+import com.busbooking.service.AuthService;
+import com.busbooking.service.EmailService;
+import com.busbooking.service.OtpService;
+
+@RestController
+@RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200")
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private OtpService otpService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return authService.register(user);
+    }
+
+    @PostMapping("/login")
+    public Optional<User> login(@RequestParam String email,
+                                @RequestParam String password) {
+
+        return authService.login(email, password);
+    }
+    
+ // ✅ SEND OTP
+    @PostMapping("/send-otp")
+    public ResponseEntity<?> sendOtp(@RequestBody Map<String, String> req) {
+
+        String email = req.get("email");
+
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
+
+        String otp = otpService.generateOtp(email);
+
+        emailService.sendOtpEmail(email, otp);
+
+        return ResponseEntity.ok("OTP Sent");
+    }
+
+    // ✅ VERIFY OTP
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> req) {
+
+        String email = req.get("email");
+        String otp = req.get("otp");
+
+        if (!otpService.validateOtp(email, otp)) {
+            return ResponseEntity.badRequest().body("Invalid OTP");
+        }
+
+        User user = userRepository.findByEmail(email);
+
+        otpService.clearOtp(email);
+
+        return ResponseEntity.ok(user);
+    }
+    
+}

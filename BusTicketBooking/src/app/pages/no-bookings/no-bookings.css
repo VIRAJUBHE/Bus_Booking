@@ -1,0 +1,44 @@
+.empty-container {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-card {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.empty-card h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.empty-card p {
+  color: #777;
+  font-size: 14px;
+}
+
+/* Smooth animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

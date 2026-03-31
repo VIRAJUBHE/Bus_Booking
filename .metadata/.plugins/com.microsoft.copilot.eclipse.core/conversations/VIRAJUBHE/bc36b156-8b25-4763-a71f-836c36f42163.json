@@ -1,0 +1,47 @@
+{
+  "conversationId": "bc36b156-8b25-4763-a71f-836c36f42163",
+  "title": "Explain the following HQL query with a clear summa...",
+  "requesterUsername": "VIRAJUBHE",
+  "responderUsername": "GitHub Copilot",
+  "turns": [
+    {
+      "message": {
+        "text": "Explain the following HQL query with a clear summary first, followed by a detailed explanation. If the query contains any SpEL expressions, explain those parts as well: \n\n@Query(\"SELECT DISTINCT b.source FROM Bus b WHERE LOWER(b.source) LIKE LOWER(CONCAT(\u0027%\u0027, :keyword, \u0027%\u0027)) \" + \"UNION \" + \"SELECT DISTINCT b.destination FROM Bus b WHERE LOWER(b.destination) LIKE LOWER(CONCAT(\u0027%\u0027, :keyword, \u0027%\u0027))\")\n\n"
+      },
+      "currentDocument": {
+        "uri": "/backend/src/main/java/com/busbooking/repository/BusRepository.java"
+      },
+      "references": [],
+      "ignoredSkills": [],
+      "userLanguage": "en",
+      "source": "panel",
+      "model": "GPT-5 mini",
+      "chatMode": "Ask",
+      "needToolCallConfirmation": true,
+      "turnId": "cbbed8a6-c923-43e3-9a3c-a5149c88e3cf",
+      "role": "user",
+      "timestamp": "2026-03-21T12:05:41.539606800Z"
+    },
+    {
+      "reply": {
+        "annotations": [],
+        "references": [],
+        "hideText": false,
+        "notifications": [],
+        "followups": [],
+        "errorMessages": [],
+        "editAgentRounds": [],
+        "panelMessages": [],
+        "steps": [],
+        "agentMessages": [],
+        "data": {},
+        "billingMultiplier": 0.0
+      },
+      "turnId": "d2c010b8-7ff7-463c-a87a-cfdd311878d7",
+      "role": "copilot",
+      "timestamp": "2026-03-21T12:05:42.718572900Z"
+    }
+  ],
+  "creationDate": "2026-03-21T12:05:41.488609100Z",
+  "lastMessageDate": "2026-03-21T12:05:42.717569200Z"
+}

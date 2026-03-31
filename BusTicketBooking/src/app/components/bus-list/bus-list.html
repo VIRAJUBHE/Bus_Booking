@@ -1,0 +1,56 @@
+<h2 class="title">All Buses</h2>
+
+<div *ngIf="buses$ | async as buses; else loading">
+
+  <div *ngIf="buses.length > 0; else noData" class="bus-container">
+
+    <div *ngFor="let bus of buses" class="bus-card">
+
+      <!-- LEFT -->
+      <div class="bus-left">
+        <h3 class="bus-name">{{ bus.busName }}</h3>
+        <p class="bus-route">
+          {{ bus.source }} → {{ bus.destination }}
+        </p>
+        <p class="bus-time">
+          Departure: {{ bus.departureTime }}
+        </p>
+        <p class="bus-type" [ngClass]="getBusTypeClass(bus.busType) ">
+          Bus Type : {{ bus.busType }}
+        </p>
+      </div>
+
+      <!-- MIDDLE -->
+      <div class="bus-middle">
+        <p class="bus-duration">🕒 {{ getFormattedDate(bus.journeyDate)  }}</p>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="bus-right">
+        <h2 class="price">₹{{ bus.price }}</h2>
+
+        <button (click)="selectBus(bus.busId)" class="book-btn">
+          Select Seat
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <div class="loader"></div>
+    <p>Fetching buses for you...</p>
+  </div>
+</ng-template>
+
+<ng-template #noData>
+  <div class="no-data-container">
+    <div class="no-data-icon">🚌</div>
+    <h3>No Buses Available</h3>
+    <p>Try changing your date or route to find available buses.</p>
+  </div>
+</ng-template>

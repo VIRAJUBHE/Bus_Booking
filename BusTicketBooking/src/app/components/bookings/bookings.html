@@ -1,0 +1,21 @@
+<h2>Booking Confirmation</h2>
+
+<div class="booking-box">
+
+  <p><strong>User ID:</strong> {{ userId }}</p>
+
+  <p><strong>Bus ID:</strong> {{ busId }}</p>
+
+  <p><strong>Selected Seats:</strong>
+    <span *ngFor="let seat of selectedSeats; let i = index">
+      {{ seat }}<span *ngIf="i < selectedSeats.length - 1">, </span>
+    </span>
+  </p>
+
+  <p><strong>Total Amount:</strong> ₹ {{ totalAmount }}</p>
+
+  <button (click)="confirmBooking()">
+    Confirm Booking
+  </button>
+
+</div>

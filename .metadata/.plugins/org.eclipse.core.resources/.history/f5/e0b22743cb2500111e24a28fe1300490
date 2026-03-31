@@ -1,0 +1,24 @@
+package com.busbooking.entity;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
+
+@Entity
+public class OtpVerification {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+	
+	private String email;
+    private String otp;
+    private int attempts;
+    
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    
+    @Column(name = "expires_time")
+    private LocalDateTime expiryTime;
+
+}

@@ -1,0 +1,148 @@
+.title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.bus-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+.bus-type {
+  font-size: 13px;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+/* AC - Blue */
+.type-ac {
+  background: #e6f2ff;
+  color: #007bff;
+}
+
+/* Sleeper - Purple */
+.type-sleeper {
+  background: #f3e6ff;
+  color: #7b2cbf;
+}
+.bus-duration {
+  font-weight: 600;
+  color: #444;
+}
+
+/* Non-AC - Gray */
+.type-nonac {
+  background: #eeeeee;
+  color: #555;
+}
+
+/* Default fallback */
+.type-default {
+  background: #fff4e6;
+  color: #ff8800;
+}
+
+.bus-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+  transition: transform 0.2s ease;
+}
+
+.bus-card:hover {
+  transform: scale(1.01);
+}
+
+/* LEFT */
+.bus-left {
+  flex: 2;
+}
+
+.bus-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.bus-route {
+  color: gray;
+}
+
+.bus-time {
+  font-size: 14px;
+}
+
+/* MIDDLE */
+.bus-middle {
+  flex: 1;
+  text-align: center;
+  color: #555;
+}
+
+/* RIGHT */
+.bus-right {
+  flex: 1;
+  text-align: right;
+}
+
+/* ================= LOADING ================= */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  gap: 15px;
+  color: #555;
+  font-size: 16px;
+}
+
+.loader {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #e0e0e0;
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= NO DATA ================= */
+.no-data-container {
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 30px;
+
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.no-data-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.no-data-container h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.no-data-container p {
+  color: #777;
+  font-size: 14px;
+}

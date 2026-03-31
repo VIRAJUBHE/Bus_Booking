@@ -1,0 +1,65 @@
+<h2 class="title">Select Your Seats</h2>
+
+<!-- ✅ WRAPPER (IMPORTANT) -->
+<div class="bus-wrapper">
+
+  <div class="bus-container">
+
+    <!-- 🚌 BUS BODY -->
+    <div class="bus-body">
+
+      <!-- DRIVER -->
+      <div class="driver">D</div>
+
+      <!-- SEATS -->
+      <div class="bus-grid">
+        <div class="row" *ngFor="let row of seatRows">
+          
+          <!-- LEFT -->
+          <div class="seat"
+            *ngFor="let seat of row.left"
+            [class.selected]="isSelected(seat)"
+            [class.booked]="isBooked(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat }}
+          </div>
+
+          <!-- AISLE -->
+          <div class="aisle"></div>
+
+          <!-- RIGHT -->
+          <div class="seat"
+            *ngFor="let seat of row.right"
+            [class.selected]="isSelected(seat)"
+            [class.booked]="isBooked(seat)"
+            (click)="toggleSeat(seat)">
+            {{ seat }}
+          </div>
+
+        </div>
+      </div>
+
+      <!-- WHEELS -->
+      <div class="wheel front-left"></div>
+      <div class="wheel front-right"></div>
+      <div class="wheel rear-left"></div>
+      <div class="wheel rear-right"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ✅ OUTSIDE ROTATION -->
+<div class="legend">
+  <span class="box available"></span> Available
+  <span class="box selected"></span> Selected
+  <span class="box booked"></span> Booked
+</div>
+
+<div class="summary">
+  <p>Total Seats Selected: {{ selectedCount }}</p>
+  <p>Total Price: ₹{{ totalPrice }}</p>
+</div>
+
+<button class="book-btn" (click)="bookNow()">Book Now</button>

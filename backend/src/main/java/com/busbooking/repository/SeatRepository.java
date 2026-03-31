@@ -1,0 +1,20 @@
+package com.busbooking.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.busbooking.entity.Seats;
+
+public interface SeatRepository extends JpaRepository<Seats, Integer> {
+
+    List<Seats> findByBus_BusId(int busId);
+
+    // 🔥 ADD THIS METHOD (IMPORTANT)
+    Optional<Seats> findByBus_BusIdAndSeatNumber(int busId, int seatNumber);
+    
+    List<Seats> findByBus_BusIdAndSeatNumberIn(int busId, List<Integer> seatNumbers);
+    
+    List<Seats> findByBus_BusIdAndStatus(int busId, String status);
+}

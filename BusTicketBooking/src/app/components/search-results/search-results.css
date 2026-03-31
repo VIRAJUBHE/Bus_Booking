@@ -1,0 +1,244 @@
+.title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.bus-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.ac {
+  color: green;
+}
+
+.non-ac {
+  color: orange;
+}
+
+.seater {
+  color: blue;
+}
+
+.bus-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+  transition: transform 0.2s ease;
+}
+
+.bus-card:hover {
+  transform: scale(1.01);
+}
+
+/* LEFT */
+.bus-left {
+  flex: 2;
+}
+
+.bus-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.bus-route {
+  color: gray;
+}
+
+.bus-time {
+  font-size: 14px;
+}
+
+/* MIDDLE */
+.bus-middle {
+  flex: 1;
+  text-align: center;
+  color: #555;
+}
+
+/* RIGHT */
+.bus-right {
+  flex: 1;
+  text-align: right;
+}
+
+.price {
+  color: #d32f2f;
+}
+
+.book-btn {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  background: #ff5722;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.book-btn:hover {
+  background: #e64a19;
+}
+
+/* NO DATA */
+.no-data {
+  text-align: center;
+  margin-top: 20px;
+  color: gray;
+}
+
+.no-data-container {
+  text-align: center;
+  margin-top: 80px;
+  padding: 30px;
+}
+
+.emoji {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.no-data-container h2 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.route {
+  font-size: 18px;
+  color: #444;
+}
+
+.date {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.suggestion {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 25px;
+}
+
+/* BUTTON GROUP */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* PRIMARY */
+.primary-btn {
+  background: #ff5722;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  background: #e64a19;
+  transform: scale(1.05);
+}
+
+/* SECONDARY */
+.secondary-btn {
+  background: #ffc107;
+  color: black;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.secondary-btn:hover {
+  background: #ffb300;
+}
+
+/* OUTLINE */
+.outline-btn {
+  background: transparent;
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
+  padding: 10px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.outline-btn:hover {
+  background: #0d6efd;
+  color: white;
+}
+
+/* BUS TYPE BADGE */
+.bus-type {
+  font-size: 13px;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+/* AC */
+.type-ac {
+  background: #e6f2ff;
+  color: #007bff;
+}
+
+/* NON-AC */
+.type-nonac {
+  background: #eeeeee;
+  color: #555;
+}
+
+/* Sleeper */
+.type-sleeper {
+  background: #f3e6ff;
+  color: #7b2cbf;
+}
+
+/* Default */
+.type-default {
+  background: #fff4e6;
+  color: #ff8800;
+}
+
+/* ================= LOADING ================= */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  gap: 15px;
+  color: #555;
+  font-size: 16px;
+}
+
+.loader {
+  width: 45px;
+  height: 45px;
+  border: 5px solid #e0e0e0;
+  border-top: 5px solid #ff5722; /* match your theme */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

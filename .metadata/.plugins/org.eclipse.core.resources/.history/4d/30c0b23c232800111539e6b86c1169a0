@@ -1,0 +1,15 @@
+package com.busbooking.repository;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.busbooking.entity.Booking;
+
+public interface BookingRepository extends JpaRepository<Booking, Integer> {
+
+    // ✅ FINAL CORRECT (based on your User.java)
+    List<Booking> findByUser_UserId(int userId);
+
+    List<Booking> findByBus_BusId(int busId);
+    
+    void deleteByBooking_BookingId(Long bookingId);
+}

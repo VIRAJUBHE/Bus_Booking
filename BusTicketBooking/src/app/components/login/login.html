@@ -1,0 +1,53 @@
+<h2 class="login">Login with OTP</h2>
+
+<div class="form-box">
+
+  <!-- ✅ TOAST MESSAGES -->
+  <p style="color: green" *ngIf="successMsg">{{ successMsg }}</p>
+  <p style="color:red" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+  <input type="text" placeholder="Enter Name" [(ngModel)]="name" [disabled]="otpSent">
+  <p style="color: red;" *ngIf="!name || name.trim().length === 0">
+  Name is required
+  </p>
+  <input type="email" placeholder="Enter Email" [(ngModel)]="email" [disabled]="otpSent">
+  <p style="color:red" *ngIf="email && !email.endsWith('@gmail.com')">
+  Only Gmail addresses allowed
+  </p>
+
+  <!-- ✅ SEND OTP BUTTON -->
+  <button 
+    *ngIf="!otpSent" 
+    (click)="sendOtp()" 
+    [disabled]="isSending  || !name || !email">
+    {{ isSending ? 'Sending...' : 'Send OTP' }}
+  </button>
+
+  <!-- ✅ OTP SECTION -->
+  <div *ngIf="otpSent">
+
+    <input type="text" [(ngModel)]="otp" placeholder="Enter OTP">
+
+    <p style="color: orange;">
+      OTP expires in {{ formattedTime }}
+    </p>
+
+    <!-- ✅ RESEND -->
+    <p>
+      <button (click)="resendOtp()" [disabled]="!canResend">
+        Resend OTP
+      </button>
+
+      <span *ngIf="!canResend">
+        ({{ resendTimer }}s)
+      </span>
+    </p>
+
+  </div>
+
+  <!-- ✅ VERIFY BUTTON -->
+  <button *ngIf="otpSent" (click)="verifyOtp()">
+    Verify & Login
+  </button>
+
+</div>

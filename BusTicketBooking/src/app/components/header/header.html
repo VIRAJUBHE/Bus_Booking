@@ -1,0 +1,20 @@
+<nav class="navbar"  [class.scrolled]="isScrolled">
+  <h1 class="logo">BusKaro</h1>
+
+  <div class="nav-links">
+    <a routerLink="/" routerLinkActive="active">Home</a>
+    <a routerLink="/buses" routerLinkActive="active">Buses</a>
+    <a (click)="goToMyBookings()" routerLinkActive="active">My Bookings</a>
+    <a routerLink="/about" routerLinkActive="active">About Us</a>
+    <!-- Show LOGIN if NOT logged in -->
+    <button *ngIf="!isLoggedIn()" (click)="goToLogin()">
+      Login
+    </button>
+
+    <!-- Show LOGOUT if logged in -->
+    <button *ngIf="isLoggedIn()" (click)="logout()">
+      Logout
+    </button>
+
+  </div>
+</nav>

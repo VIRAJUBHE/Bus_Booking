@@ -1,0 +1,73 @@
+package com.busbooking.service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.busbooking.entity.OtpVerification;
+import com.busbooking.repository.OtpRepository;
+
+@Service
+public class OtpService {
+
+    @Autowired
+    private OtpRepository otpRepository;
+
+    public String generateOtp() {
+        return String.valueOf((int)(Math.random() * 9000) + 1000);
+    }
+
+    public void saveOtp(String email, String otp) {
+
+        // 🔥 Rate limit (30 sec)
+        Optional<OtpVerification> existing = otpRepository
+                .findTopByEmailOrderByCreatedAtDesc(email);
+
+        if (existing.isPresent() &&
+            existing.get().getCreatedAt().plusSeconds(30).isAfter(LocalDateTime.now())) {
+            throw new RuntimeException("Wait before requesting another OTP");
+        }
+
+        OtpVerification record = new OtpVerification();
+        record.setEmail(email);
+        record.setOtp(otp);
+        record.setCreatedAt(LocalDateTime.now());
+        record.setExpiryTime(LocalDateTime.now().plusMinutes(5)); // ✅ expiry
+        record.setAttempts(0);
+
+        otpRepository.save(record);
+    }
+
+    public String validateOtpWithReason(String email, String otp) {
+
+        Optional<OtpVerification> optional =
+                otpRepository.findTopByEmailOrderByCreatedAtDesc(email);
+
+        if (optional.isEmpty()) return "NO_OTP";
+
+        OtpVerification record = optional.get();
+
+        if (record.getExpiryTime().isBefore(LocalDateTime.now())) {
+            return "EXPIRED";
+        }
+
+        if (record.getAttempts() >= 5) {
+            return "BLOCKED";
+        }
+
+        if (!record.getOtp().equals(otp)) {
+            record.setAttempts(record.getAttempts() + 1);
+            otpRepository.save(record);
+            return "WRONG";
+        }
+
+        return "SUCCESS";
+    }
+
+    public void clearOtp(String email) {
+        otpRepository.findTopByEmailOrderByCreatedAtDesc(email)
+                .ifPresent(otpRepository::delete);
+    }
+}

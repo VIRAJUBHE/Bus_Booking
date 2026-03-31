@@ -1,0 +1,109 @@
+package com.busbooking.controller;
+
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.busbooking.entity.User;
+import com.busbooking.repository.UserRepository;
+import com.busbooking.service.AuthService;
+import com.busbooking.service.EmailService;
+import com.busbooking.service.OtpService;
+
+@RestController
+@RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200")
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private OtpService otpService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return authService.register(user);
+    }
+
+    @PostMapping("/login")
+    public Optional<User> login(@RequestParam String email,
+                                @RequestParam String password) {
+
+        return authService.login(email, password);
+    }
+    
+ // ✅ SEND OTP
+    @PostMapping("/send-otp")
+    public ResponseEntity<?> sendOtp(@RequestBody Map<String, String> req) {
+
+        String email = req.get("email");
+
+        // ✅ Check user
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        User user;
+
+        if (optionalUser.isEmpty()) {
+            // 🔥 AUTO REGISTER USER
+            user = new User();
+            user.setEmail(email);
+            user = userRepository.save(user);
+        } else {
+            user = optionalUser.get();
+        }
+
+        // ✅ Generate OTP
+        String otp = otpService.generateOtp();
+
+        // ✅ SAVE OTP (IMPORTANT)
+        otpService.saveOtp(email, otp);
+
+        // ✅ Send Email
+        emailService.sendOtpEmail(email, otp);
+
+        return ResponseEntity.ok(Map.of("message", "OTP Sent"));
+    }
+
+    // ✅ VERIFY OTP
+    @PostMapping("/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> req) {
+
+        String email = req.get("email");
+        String otp = req.get("otp");
+
+        String result = otpService.validateOtpWithReason(email, otp);
+
+        if (result.equals("EXPIRED")) {
+            return ResponseEntity.badRequest().body("OTP expired");
+        }
+
+        if (result.equals("WRONG")) {
+            return ResponseEntity.badRequest().body("Incorrect OTP");
+        }
+
+        if (result.equals("BLOCKED")) {
+            return ResponseEntity.badRequest().body("Too many attempts");
+        }
+
+        if (!result.equals("SUCCESS")) {
+            return ResponseEntity.badRequest().body("OTP not found");
+        }
+
+        // ✅ Get user (will always exist now)
+        User user = userRepository.findByEmail(email).get();
+
+        otpService.clearOtp(email);
+
+        return ResponseEntity.ok(user);
+    }
+    
+}

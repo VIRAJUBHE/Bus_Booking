@@ -1,0 +1,82 @@
+<div class="landing-page">
+
+  <!-- Animated Background -->
+  <div class="background">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <div class="container">
+  <h2>Search Bus</h2>
+
+  <!-- INPUT ROW -->
+  <div class="input-row">
+
+    <!-- SOURCE -->
+    <div class="input-box">
+      <input 
+        placeholder="Select Source"
+        [value]="source"
+        readonly
+        (click)="loadSources()"
+      />
+
+      <div class="dropdown" *ngIf="showSourceDropdown">
+        <div 
+          *ngFor="let item of sourceSuggestions"
+          (click)="selectSource(item)">
+          {{item}}
+        </div>
+      </div>
+    </div>
+
+    <!-- SWAP -->
+    <button class="swap-btn" (click)="swapLocations()">⇄</button>
+
+    <!-- DESTINATION -->
+    <div class="input-box">
+      <input 
+        placeholder="Select Destination"
+        [value]="destination"
+        readonly
+        (click)="loadDestinations()"
+      />
+
+      <div class="dropdown" *ngIf="showDestinationDropdown">
+        <div 
+          *ngFor="let item of destinationSuggestions"
+          (click)="selectDestination(item)">
+          {{item}}
+        </div>
+      </div>
+    </div>
+
+        <!-- DATE -->
+    <div class="input-box date-box">
+  <span class="date-icon">📅</span>
+
+  <input 
+    type="date"
+    [(ngModel)]="journeyDate"
+    [min]="todayDate"
+    class="date-input"
+  />
+</div>
+
+  </div>
+
+  <!-- SEARCH BUTTON (SEPARATE) -->
+  <button class="search-btn" (click)="search()">Search</button>
+
+</div>
+
+    <div class="road road-back"></div>
+    <div class="road road-front"></div>
+
+    <img src="ChatGPT Image Mar 19, 2026, 11_55_44 AM.png" class="bus bus1"> 
+    <img src="ChatGPT Image Mar 19, 2026, 11_55_44 AM.png" class="bus bus2">
+  </div>
+
+  <!-- Content -->
+  
+
+</div>

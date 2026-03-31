@@ -1,0 +1,53 @@
+package com.busbooking.entity;
+
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "booking_seats")
+public class BookingSeat {
+	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "booking_seat_id")
+    private int bookingSeatId;
+
+    // ✅ FIX: use JsonIgnore instead of JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    @JsonIgnore
+    private Booking booking;
+
+    // ✅ VERY IMPORTANT
+    @ManyToOne
+    @JoinColumn(name = "seat_id")
+    @JsonIgnoreProperties({"bus"}) 
+    private Seats seat;
+
+    public BookingSeat() {}
+
+    public int getBookingSeatId() {
+        return bookingSeatId;
+    }
+
+    public void setBookingSeatId(int bookingSeatId) {
+        this.bookingSeatId = bookingSeatId;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public Seats getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Seats seat) {
+        this.seat = seat;
+    }
+}

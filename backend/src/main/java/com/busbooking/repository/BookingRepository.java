@@ -1,0 +1,25 @@
+package com.busbooking.repository;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.busbooking.entity.Booking;
+
+public interface BookingRepository extends JpaRepository<Booking, Integer> {
+
+    // ✅ FINAL CORRECT (based on your User.java)
+    List<Booking> findByUser_UserId(int userId);
+
+    List<Booking> findByBus_BusId(int busId);
+    
+    @Query("""
+    	    SELECT DISTINCT b FROM Booking b
+    	    JOIN FETCH b.bookingSeats bs
+    	    JOIN FETCH bs.seat
+    	    JOIN FETCH b.bus
+    	""")
+    	List<Booking> findAllWithDetails();
+    
+    
+}

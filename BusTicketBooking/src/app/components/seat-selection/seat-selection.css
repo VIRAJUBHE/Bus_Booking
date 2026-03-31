@@ -1,0 +1,192 @@
+.title {
+  text-align: center;
+  margin-top: 120px;
+}
+
+.bus-container {
+  display: flex;
+  justify-content: center;
+  transform: rotate(-90deg);   /* 🔥 rotate left */
+  transform-origin: center;
+  margin: -200px auto; /* adjust if needed */
+}
+
+/* WRAPPER */
+.bus-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.bus-body {
+  position: relative;
+  padding: 30px 40px;
+  background: #dfe6e9;
+  border-radius: 40px;
+  border: 4px solid #2d3436;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  
+}
+
+/* DRIVER */
+.driver {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  width: 50px;
+  height: 50px;
+  background: #0984e3;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* GRID */
+.bus-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 50px;
+  
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* AISLE */
+.aisle {
+  width: 30px;
+}
+
+/* SEATS */
+.seat {
+  width: 50px;
+  height: 50px;
+  background: #b2bec3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.seat:hover {
+  background: #636e72;
+  color: white;
+}
+
+.seat.selected {
+  background: #00b894;
+  color: white;
+}
+
+.seat.booked {
+  background: #d63031;
+  color: white;
+  cursor: not-allowed;
+}
+
+/* TOP VIEW TYRES - ROTATED */
+.wheel {
+  position: absolute;
+  width: 20px;   /* swapped */
+  height: 70px;  /* swapped */
+  background: #2d3436;
+  border-radius: 10px;
+}
+
+/* FRONT */
+.front-left {
+  top: 70px;
+  left: -25px;
+}
+
+.front-right {
+  top: 70px;
+  right: -25px;
+}
+
+/* REAR */
+.rear-left {
+  bottom: 80px;
+  left: -25px;
+}
+
+.rear-right {
+  bottom: 80px;
+  right: -25px;
+}
+
+/* tyre pattern vertical */
+.wheel::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    0deg,   /* vertical pattern */
+    #636e72,
+    #636e72 4px,
+    #2d3436 4px,
+    #2d3436 8px
+  );
+}
+
+.summary {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.book-btn {
+  display: block;
+  margin: 22px auto;
+  padding: 12px 28px;
+  background: #2d3436;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+  position: relative;
+  
+}
+
+.book-btn:hover {
+  background: #1f2527;
+  transform: translateY(-2px);
+}
+.legend { 
+  text-align: center;
+   
+  margin-top: 20px; 
+} 
+.box { 
+  display: inline-block; 
+  width: 15px; height: 15px; 
+  margin: 0 5px; 
+} 
+.available { 
+  background: #b2bec3; 
+} 
+.selected { 
+  background: #00b894; 
+} 
+.booked { 
+  background: #d63031; 
+}
+/* FIX TEXT ORIENTATION */
+.seat,
+.driver {
+  transform: rotate(90deg);   /* counter rotation */
+}

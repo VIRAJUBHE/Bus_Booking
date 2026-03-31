@@ -1,0 +1,127 @@
+package com.busbooking.service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.busbooking.entity.*;
+import com.busbooking.repository.*;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class BookingService {
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    private BookingSeatRepository bookingSeatRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private BusRepository busRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional
+    public Booking bookSeats(int userId, int busId, List<Integer> seatIds) {
+
+        User user = userRepository.findById(userId).orElseThrow();
+        Bus bus = busRepository.findById(busId).orElseThrow();
+
+        List<Seats> seats = seatRepository.findAllBySeatIdIn(seatIds);
+
+        // ✅ STRICT CHECK
+        for (Seats seat : seats) {
+            if (bookingSeatRepository.existsBySeat_SeatId(seat.getSeatId())) {
+                throw new RuntimeException("Seat " + seat.getSeatNumber() + " already booked");
+            }
+        }
+
+        // ✅ CREATE BOOKING
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setBus(bus);
+        booking.setBookingDate(LocalDateTime.now());
+        booking.setStatus("CONFIRMED");
+        double total = seats.size() * bus.getPrice();
+        booking.setTotalAmount(total);
+
+        booking = bookingRepository.save(booking);
+        
+        List<BookingSeat> bookingSeatList = new ArrayList<>();
+
+        // ✅ SAVE MAPPING
+        for (Seats seat : seats) {
+
+            seat.setStatus("BOOKED");
+            seatRepository.save(seat);
+
+            BookingSeat bs = new BookingSeat();
+            bs.setBooking(booking);
+            bs.setSeat(seat);
+            bookingSeatRepository.save(bs);
+            bookingSeatList.add(bs);   // ✅ collect seats
+        }
+        booking.setBookingSeats(bookingSeatList);
+
+        return bookingRepository.findById(booking.getBookingId()).orElseThrow();
+    }
+    
+    public List<Integer> getBookedSeatNumbers(int busId) {
+
+        List<Seats> seats = seatRepository.findByBus_BusIdAndStatus(busId, "BOOKED");
+
+        return seats.stream()
+                .map(Seats::getSeatNumber) // ✅ THIS IS KEY
+                .toList();
+    }
+    
+    public List<Booking> getBookingsByUser(int userId) {
+        return bookingRepository.findByUser_UserId(userId);
+    }
+    
+    @Transactional
+    public String cancelBooking(int bookingId) {
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // ✅ Prevent double cancel
+        if ("CANCELLED".equals(booking.getStatus())) {
+            return "Booking already cancelled";
+        }
+
+        // ✅ GET ALL BOOKED SEATS
+        List<BookingSeat> bookingSeats = bookingSeatRepository.findByBooking(booking);
+
+        for (BookingSeat bs : bookingSeats) {
+
+            Seats seat = bs.getSeat();
+
+            // ✅ FREE THE SEAT
+            seat.setStatus("AVAILABLE");
+            seatRepository.save(seat);
+        }
+
+        // ✅ DELETE MAPPING
+        bookingSeatRepository.deleteAll(bookingSeats);
+
+        // ✅ UPDATE STATUS
+        booking.setStatus("CANCELLED");
+        bookingRepository.save(booking);
+
+        // ✅ OPTIONAL REFUND LOGIC
+        double refundAmount = booking.getTotalAmount();
+
+        return "Booking cancelled. Refund: ₹" + refundAmount;
+    }	
+
+}

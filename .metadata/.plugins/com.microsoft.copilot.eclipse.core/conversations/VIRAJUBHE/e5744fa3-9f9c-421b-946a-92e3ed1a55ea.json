@@ -1,0 +1,47 @@
+{
+  "conversationId": "e5744fa3-9f9c-421b-946a-92e3ed1a55ea",
+  "title": "Explain the following HQL query with a clear summa...",
+  "requesterUsername": "VIRAJUBHE",
+  "responderUsername": "GitHub Copilot",
+  "turns": [
+    {
+      "message": {
+        "text": "Explain the following HQL query with a clear summary first, followed by a detailed explanation. If the query contains any SpEL expressions, explain those parts as well: \n\n@Query(\"SELECT bs.seat.seat_number FROM bookings bs WHERE bs.seat.bus.bus_id \u003d :bus_id\")\n\n"
+      },
+      "currentDocument": {
+        "uri": "/backend/src/main/java/com/busbooking/repository/BookingSeatRepository.java"
+      },
+      "references": [],
+      "ignoredSkills": [],
+      "userLanguage": "en",
+      "source": "panel",
+      "model": "GPT-5 mini",
+      "chatMode": "Ask",
+      "needToolCallConfirmation": true,
+      "turnId": "a8dcaa1e-bc69-41c6-b24c-be4f17f74495",
+      "role": "user",
+      "timestamp": "2026-03-18T15:49:07.255915900Z"
+    },
+    {
+      "reply": {
+        "annotations": [],
+        "references": [],
+        "hideText": false,
+        "notifications": [],
+        "followups": [],
+        "errorMessages": [],
+        "editAgentRounds": [],
+        "panelMessages": [],
+        "steps": [],
+        "agentMessages": [],
+        "data": {},
+        "billingMultiplier": 0.0
+      },
+      "turnId": "348dafb5-6f38-4cd0-bf07-fa91310052fb",
+      "role": "copilot",
+      "timestamp": "2026-03-18T15:49:08.528868600Z"
+    }
+  ],
+  "creationDate": "2026-03-18T15:49:07.200916Z",
+  "lastMessageDate": "2026-03-18T15:49:08.526872700Z"
+}

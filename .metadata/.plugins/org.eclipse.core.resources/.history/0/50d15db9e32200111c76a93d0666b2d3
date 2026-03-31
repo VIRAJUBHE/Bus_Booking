@@ -1,0 +1,68 @@
+package com.busbooking.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.busbooking.entity.*;
+import com.busbooking.repository.*;
+
+@Service
+public class BookingService {
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    private BookingSeatRepository bookingSeatRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private BusRepository busRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public Booking bookSeats(int userId, int busId, List<Integer> seatIds) {
+
+        User user = userRepository.findById(userId).orElseThrow();
+        Bus bus = busRepository.findById(busId).orElseThrow();
+
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setBus(bus);
+        booking.setBookingDate(LocalDateTime.now());
+        booking.setStatus("CONFIRMED");
+
+        double totalAmount = seatIds.size() * bus.getPrice();
+        booking.setTotalAmount(totalAmount);
+
+        Booking savedBooking = bookingRepository.save(booking);
+
+        for(int seatId : seatIds){
+
+            if(bookingSeatRepository.existsBySeat_SeatId(seatId)){
+                throw new RuntimeException("Seat already booked");
+            }
+
+            Seats seat = seatRepository.findById(seatId).orElseThrow();
+
+            BookingSeat bookingSeat = new BookingSeat();
+            bookingSeat.setBooking(savedBooking);
+            bookingSeat.setSeat(seat);
+
+            bookingSeatRepository.save(bookingSeat);
+        }
+
+        return savedBooking;
+    }
+    
+    public List<Integer> getBookedSeatNumbers(int busId) {
+        return bookingSeatRepository.findBookedSeatNumbersByBusId(busId);
+    }
+
+}

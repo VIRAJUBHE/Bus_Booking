@@ -1,0 +1,58 @@
+package com.busbooking.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.busbooking.service.AdminService;
+import com.busbooking.service.BookingService;
+
+@RestController
+@RequestMapping("/admin")
+@CrossOrigin
+public class AdminBookingController {
+
+    @Autowired
+    private BookingService bookingService;
+    
+    @Autowired
+    private AdminService adminService;
+
+    // GET ALL BOOKINGS
+    @GetMapping("/bookings")
+    public ResponseEntity<?> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+
+    // DELETE BOOKING
+    @DeleteMapping("/bookings/{id}")
+    public ResponseEntity<?> deleteBooking(@PathVariable int id) {
+        bookingService.deleteBooking(id);
+        return ResponseEntity.ok("Booking cancelled successfully");
+    }
+    
+    @GetMapping("/dashboard")
+    public ResponseEntity<?> getDashboardStats() {
+        return ResponseEntity.ok(adminService.getDashboardStats());
+    }
+    
+    @GetMapping("/dashboard/revenue-chart")
+    public ResponseEntity<?> getRevenueChart() {
+        return ResponseEntity.ok(adminService.getRevenueChart());
+    }
+    
+    @GetMapping("/dashboard/bookings-chart")
+    public ResponseEntity<?> getBookingsChart() {
+        return ResponseEntity.ok(adminService.getBookingsChart());
+    }
+    
+    @GetMapping("/dashboard/bus-type-chart")
+    public ResponseEntity<?> getBusTypeChart() {
+        return ResponseEntity.ok(adminService.getBusTypeChart());
+    }
+}

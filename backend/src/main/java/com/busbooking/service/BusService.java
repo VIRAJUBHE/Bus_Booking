@@ -1,0 +1,36 @@
+package com.busbooking.service;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.busbooking.entity.Bus;
+import com.busbooking.repository.BusRepository;
+
+@Service
+public class BusService {
+
+    @Autowired
+    private BusRepository busRepository;
+
+    public List<Bus> searchBus(String source, String destination, LocalDate date) {
+        return busRepository.findBySourceAndDestinationAndJourneyDate(
+            source, destination, date
+        );
+    }
+
+    public Bus getBusById(int busId) {
+
+        return busRepository.findById(busId).orElse(null);
+    }
+    
+    public List<Bus> getAllBuses() {
+    			return busRepository.findAll();
+    }
+    
+    public List<String> findDistinctLocations(String keyword) {
+		return busRepository.findDistinctLocations(keyword);
+	}
+}

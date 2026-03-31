@@ -1,0 +1,93 @@
+<!-- LOADING -->
+<ng-template #loadingTpl>
+  <div class="loading-container">
+    <div class="loading-card">
+
+      <div class="spinner"></div>
+
+      <h3>Fetching Your Bookings...</h3>
+      <p>Please wait while we load your journey details</p>
+
+    </div>
+  </div>
+</ng-template>
+
+<!-- DATA LOADED -->
+<ng-container *ngIf="(bookings$ | async) as bookings; else loadingTpl">
+
+  <!-- ✅ EMPTY STATE -->
+  <ng-container *ngIf="bookings.length === 0; else showBookings">
+    <app-no-bookings></app-no-bookings>
+  </ng-container>
+
+  <!-- ✅ BOOKINGS LIST -->
+  <ng-template #showBookings>
+
+    <div *ngFor="let booking of bookings" class="ticket-card">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div class="ticket-header">
+      🚌 {{ booking?.bus?.busName }}
+    </div>
+    <div class="date">📅 {{ booking?.bus?.journeyDate }}</div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center">
+    <span>{{ booking?.bus?.source }}</span>
+    <span class="arrow">→</span>
+    <span>{{ booking?.bus?.destination }}</span>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="status">{{ booking.status }}</div>
+    <button (click)="openDetails(booking)">View Details</button>
+  </div>
+
+  </div>
+  </ng-template>
+</ng-container>
+
+<div class="overlay" *ngIf="selectedBooking" (click)="closeDetails()">
+
+  <!-- ✅ MAIN CARD (this is what PDF captures) -->
+  <div class="overlay-card" 
+       id="ticket-details"
+       (click)="$event.stopPropagation()">
+
+    <h3>Booking Details</h3>
+
+    <p><strong>Bus:</strong> {{ selectedBooking?.bus?.busName|| 'N/A'  }}</p>
+    <p><strong>Route:</strong> {{ selectedBooking?.bus?.source || 'N/A' }} → {{ selectedBooking?.bus?.destination || 'N/A' }}</p>
+    <p><strong>Date:</strong> {{ selectedBooking?.bus?.journeyDate || 'N/A' }}</p>
+    <p><strong>Time:</strong> {{ selectedBooking?.bus?.departureTime || 'N/A' }}</p>
+
+    <p><strong>Booking Date:</strong> 
+    {{ selectedBooking?.bookingDate | date:'medium' }}
+    </p>
+
+    <p><strong>Seats:</strong> 
+      {{ getSeatNumbers(selectedBooking) }}
+    </p>
+
+    <p><strong>Total:</strong> ₹{{ getTotalPrice(selectedBooking) }}</p>
+
+    <p><strong>Status:</strong> {{ selectedBooking?.status }}</p>
+
+    <!-- ✅ ACTIONS INSIDE CARD -->
+    <div class="overlay-actions">
+      <!-- ✅ NEW CANCEL BUTTON -->
+      <button 
+        (click)="cancelBooking(selectedBooking.bookingId)"
+        *ngIf="selectedBooking?.status !== 'CANCELLED'">
+        Cancel Booking
+      </button>
+      <button (click)="downloadTicket()">Download</button>
+      <button class="close-btn" (click)="closeDetails()">Close</button>
+    </div>
+
+  </div>
+
+</div>

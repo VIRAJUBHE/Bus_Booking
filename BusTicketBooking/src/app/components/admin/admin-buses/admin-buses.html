@@ -1,0 +1,178 @@
+<div class="container">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h3>{{ isEdit ? 'Update Bus' : 'Add Bus' }}</h3>
+
+    <form #busForm="ngForm" (ngSubmit)="submitBus()" novalidate>
+
+  <!-- BUS NAME -->
+  <input 
+    placeholder="Bus Name"
+    [(ngModel)]="bus.busName"
+    name="busName"
+    required
+    #busName="ngModel"
+  />
+  <p class="error" *ngIf="busName.invalid && busName.touched">
+    Bus name is required
+  </p>
+
+  <!-- BUS NUMBER -->
+  <input 
+    placeholder="Bus Number"
+    [(ngModel)]="bus.busNumber"
+    name="busNumber"
+    required
+    #busNumber="ngModel"
+  />
+  <p class="error" *ngIf="busNumber.invalid && busNumber.touched">
+    Bus number is required
+  </p>
+
+  <!-- SOURCE -->
+  <input 
+    placeholder="Source"
+    [(ngModel)]="bus.source"
+    name="source"
+    required
+    #source="ngModel"
+  />
+  <p class="error" *ngIf="source.invalid && source.touched">
+    Source is required
+  </p>
+
+  <!-- DESTINATION -->
+  <input 
+    placeholder="Destination"
+    [(ngModel)]="bus.destination"
+    name="destination"
+    required
+    #destination="ngModel"
+  />
+  <p class="error" *ngIf="destination.invalid && destination.touched">
+    Destination is required
+  </p>
+
+  <!-- TIME -->
+  <input 
+    type="time"
+    [(ngModel)]="bus.departureTime"
+    name="departureTime"
+    required
+    #time="ngModel"
+  />
+  <p class="error" *ngIf="time.invalid && time.touched">
+    Departure time required
+  </p>
+
+  <!-- DATE -->
+  <input 
+    type="date"
+    [(ngModel)]="bus.journeyDate"
+    name="journeyDate"
+    required
+    #date="ngModel"
+  />
+  <p class="error" *ngIf="date.invalid && date.touched">
+    Journey date required
+  </p>
+
+  <!-- PRICE -->
+  <input 
+    type="number"
+    placeholder="Price"
+    [(ngModel)]="bus.price"
+    name="price"
+    required
+    min="1"
+    #price="ngModel"
+  />
+  <p class="error" *ngIf="price.invalid && price.touched">
+    Enter valid price
+  </p>
+
+  <!-- SEATS -->
+  <input 
+    type="number"
+    placeholder="Seats"
+    [(ngModel)]="bus.totalSeats"
+    name="totalSeats"
+    required
+    min="1"
+    #seats="ngModel"
+  />
+  <p class="error" *ngIf="seats.invalid && seats.touched">
+    Enter valid seats
+  </p>
+
+  <!-- BUS TYPE -->
+  <select 
+    [(ngModel)]="bus.busType"
+    name="busType"
+    required
+    #type="ngModel"
+  >
+    <option value="">Select Type</option>
+    <option value="AC">AC</option>
+    <option value="NON-AC">Non-AC</option>
+    <option value="SEATER">Seater</option>
+  </select>
+  <p class="error" *ngIf="type.invalid && type.touched">
+    Select bus type
+  </p>
+
+  <!-- BUTTON -->
+  <button type="submit" [disabled]="busForm.invalid">
+    {{ isEdit ? 'Update Bus' : 'Add Bus' }}
+  </button>
+
+</form>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-card">
+    <h3>All Buses</h3>
+
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Route</th>
+          <th>Time</th>
+          <th>Date</th>
+          <th>Price</th>
+          <th>Type</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <!-- 🔄 LOADING -->
+  <div *ngIf="loading" class="loading">
+    Loading buses...
+  </div>
+
+      <tbody>
+        <tr *ngFor="let b of buses">
+          <td>{{ b.busName }}</td>
+          <td>{{ b.source }} → {{ b.destination }}</td>
+          <td>{{ b.departureTime }}</td>
+          <td>{{ b.journeyDate }}</td>
+          <td>₹{{ b.price }}</td>
+          <td>{{ b.busType }}</td>
+          <td>
+            <button (click)="editBus(b)">Edit</button>
+            <button class="delete" (click)="deleteBus(b.busId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+    <!-- ❌ EMPTY -->
+  <div *ngIf="!loading && buses.length === 0" class="empty">
+    No buses available
+  </div>
+
+</div>

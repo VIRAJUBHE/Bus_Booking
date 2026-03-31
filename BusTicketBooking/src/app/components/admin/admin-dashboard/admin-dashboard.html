@@ -1,0 +1,49 @@
+<div class="dashboard">
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loader"></div>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="cards" *ngIf="!loading">
+
+    <div class="card">
+      <h4>Total Buses</h4>
+      <p>{{ stats.totalBuses }}</p>
+    </div>
+
+    <div class="card">
+      <h4>Total Bookings</h4>
+      <p>{{ stats.totalBookings }}</p>
+    </div>
+
+    <div class="card">
+      <h4>Total Revenue</h4>
+      <p>₹{{ stats.totalRevenue }}</p>
+    </div>
+    
+
+  </div>
+  <div class="chart-card">
+  <h3>Revenue Trend</h3>
+  <canvas id="revenueChart"></canvas>
+</div>
+
+<div class="charts">
+
+  <div class="chart-card">
+    <h3>Bookings Per Day</h3>
+    <canvas id="bookingsChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>Bus Type Distribution</h3>
+    <canvas id="busTypeChart"></canvas>
+  </div>
+
+</div>
+
+</div>
+

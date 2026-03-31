@@ -1,0 +1,24 @@
+package com.busbooking.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.busbooking.entity.Seats;
+import com.busbooking.service.SeatService;
+
+@RestController
+@RequestMapping("/seats")
+@CrossOrigin(origins = "http://localhost:4200")
+public class SeatController {
+
+    @Autowired
+    private SeatService seatService;
+
+    @GetMapping("/bus/{busId}")
+    public List<Seats> getSeatsByBus(@PathVariable Long busId) {
+
+        return seatService.getSeatsByBus(busId);
+    }
+}

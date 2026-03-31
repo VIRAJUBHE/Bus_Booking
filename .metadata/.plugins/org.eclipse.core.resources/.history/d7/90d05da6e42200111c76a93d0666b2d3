@@ -1,0 +1,20 @@
+package com.busbooking.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.busbooking.entity.BookingSeat;
+
+public interface BookingSeatRepository extends JpaRepository<BookingSeat, Integer> {
+
+    List<BookingSeat> findByBooking_BookingId(int bookingId);
+
+    boolean existsBySeat_SeatIdAndSeat_Bus_BusId(int seatId, int busId);
+    
+    @Query("SELECT bs.seat.seatNumber FROM BookingSeat bs WHERE bs.seat.bus.busId = :busId")
+    List<Integer> findBookedSeatNumbersByBusId(@Param("busId") int busId);
+	
+}

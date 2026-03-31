@@ -1,0 +1,81 @@
+package com.busbooking.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.busbooking.entity.*;
+import com.busbooking.repository.*;
+
+@Service
+public class BookingService {
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    private BookingSeatRepository bookingSeatRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private BusRepository busRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public Booking bookSeats(int userId, int busId, List<Integer> seatIds) {
+
+    	User user = userRepository.findById(userId).orElseThrow();
+        Bus bus = busRepository.findById(busId).orElseThrow();
+
+        List<Seats> seats = seatRepository.findAllBySeatIdIn(seatIds);
+
+        // ✅ STEP 1: CHECK if already booked
+        for (Seats seat : seats) {
+            if (seat.getStatus().equals("BOOKED")) {
+                throw new RuntimeException("Seat " + seat.getSeatNumber() + " already booked");
+            }
+        }
+
+        // ✅ STEP 2: Mark seats as BOOKED
+        for (Seats seat : seats) {
+            seat.setStatus("BOOKED");
+        }
+
+        seatRepository.saveAll(seats); // ✅ save all at once
+
+        // ✅ STEP 3: Create booking
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setBus(bus);
+        booking.setBookingDate(LocalDateTime.now());
+        booking.setStatus("CONFIRMED");
+
+        return bookingRepository.save(booking);
+    }
+    
+    public List<Integer> getBookedSeatNumbers(int busId) {
+		return bookingSeatRepository.findBookedSeatNumbersByBusId(busId);
+	}
+    
+    public List<Booking> getBookingsByUser(int userId) {
+        return bookingRepository.findByUser_UserId(userId);
+    }
+    
+    public void cancelBooking(int bookingId) {
+
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow();
+
+        booking.setStatus("CANCELLED");
+
+        // OPTIONAL: free seats
+        bookingSeatRepository.deleteByBooking(booking);
+
+        bookingRepository.save(booking);
+    }
+
+}

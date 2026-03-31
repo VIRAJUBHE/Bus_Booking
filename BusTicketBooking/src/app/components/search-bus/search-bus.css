@@ -1,0 +1,351 @@
+/* Background */
+.background {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%; 
+  z-index: 0;
+  background: linear-gradient(to top, #4facfe, #87ceeb);
+  overflow: hidden;
+}
+
+/* ---------------- CLOUDS ---------------- */
+.cloud {
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  background: white;
+  border-radius: 50px;
+  opacity: 0.8;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 100px;
+  height: 80px;
+  top: -40px;
+  left: 20px;
+}
+
+.cloud::after {
+  width: 120px;
+  height: 90px;
+  top: -50px;
+  right: 20px;
+}
+
+.cloud1 {
+  top: 50px;
+  left: -200px;
+  animation: moveClouds 60s linear infinite;
+}
+
+.cloud2 {
+  top: 120px;
+  left: -300px;
+  animation: moveClouds 90s linear infinite;
+}
+
+@keyframes moveClouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(120vw); }
+}
+
+/* ---------------- ROADS (PARALLAX) ---------------- */
+.road {
+  position: absolute;
+  width: 200%;
+  height: 120px;
+  background: #333;
+}
+
+/* Back road (slower) */
+.road-back {
+  bottom: 120px;
+  opacity: 0.6;
+  animation: roadMoveBack 10s linear infinite;
+  animation-duration: 20s;
+}
+
+/* Front road (faster) */
+.road-front {
+  bottom: 0;
+  animation: roadMoveFront 5s linear infinite;
+  animation-duration: 8s;
+}
+
+@keyframes roadMoveFront {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes roadMoveBack {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---------------- BUSES ---------------- */
+.bus {
+  position: absolute;
+  width: 200px;
+}
+
+.bus1 {
+  bottom: 20px;
+  left: -150px;
+  animation: moveRight 12s linear infinite;
+}
+
+.bus2 {
+  bottom: 140px;
+  right: -150px;   /* start from right side */
+  transform: scaleX(-1); /* flip bus image */
+  animation: moveLeft 15s linear infinite;
+}
+
+
+/* Bus animation */
+@keyframes moveRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(120vw);
+  }
+}
+
+/* Move right → left */
+@keyframes moveLeft {
+  from {
+    transform: translateX(0) scaleX(-1);
+  }
+  to {
+    transform: translateX(-120vw) scaleX(-1);
+  }
+}
+
+/* ---------------- FORM ---------------- */
+.container {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-top: 120px;
+}
+
+
+.cloud,
+.road,
+.bus {
+  pointer-events: none;
+}
+
+button {
+  padding: 10px 20px;
+}
+
+.landing-page {
+  position: relative;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.search-btn {
+  margin-top: 25px;
+  padding: 12px 30px;
+  border-radius: 25px;
+  border: none;
+  background: #0d6efd;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  background: #0b5ed7;
+  transform: scale(1.05);
+}
+
+.swap-btn {
+  height: 50px;
+  width: 50px;
+  margin: 0; /* remove extra shift */
+}
+
+.swap-btn:hover {
+  transform: rotate(180deg) scale(1.1);
+  background: #ff8c42;
+}
+
+.active-item {
+  background: #ff6b00;
+}
+
+.input-row::before {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  top: 50%;
+  z-index: -1;
+}
+
+input[readonly] {
+  cursor: pointer;
+}
+
+input {
+  width: 260px;
+  height: 50px;
+  border-radius: 30px;
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+
+  margin-top: 5px;
+  overflow: hidden;
+  z-index: 50;
+}
+
+/* Items */
+.dropdown div {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown div:hover {
+  background: #ff6b00;
+}
+
+/* DATE TABS CONTAINER */
+.date-tabs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* BUTTONS */
+.date-tabs button {
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 13px;
+}
+
+/* HOVER */
+.date-tabs button:hover {
+  background: #ff6b00;
+  color: white;
+}
+
+/* ACTIVE TAB */
+.date-tabs button.active {
+  background: #ff6b00;
+  color: white;
+  font-weight: bold;
+}
+
+/* CUSTOM DATE */
+.custom-date {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 25px;
+  padding: 0 10px;
+}
+
+.custom-date span {
+  margin-right: 5px;
+}
+
+.custom-date input {
+  border: none;
+  outline: none;
+  height: 40px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* DATE BOX MATCHING UI */
+.date-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ICON */
+.date-icon {
+  position: absolute;
+  left: 15px;
+  font-size: 16px;
+  color: #555;
+  pointer-events: none;
+}
+
+/* DATE INPUT */
+.date-input {
+  width: 260px;
+  height: 50px;
+  border-radius: 30px;
+  padding: 0 20px 0 40px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.date-input:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* FOCUS EFFECT */
+.date-input:focus {
+  box-shadow: 0 0 12px rgba(13, 110, 253, 0.4);
+}
+
+/* CALENDAR ICON STYLE (Chrome fix) */
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
+  cursor: pointer;
+}

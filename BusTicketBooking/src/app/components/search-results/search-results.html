@@ -1,0 +1,94 @@
+<h2 class="title">Available Buses</h2>
+
+<div *ngIf="buses$ | async as buses; else loading">
+
+  <div *ngIf="buses.length > 0; else noData" class="bus-container">
+
+    <div *ngFor="let bus of buses" class="bus-card">
+
+      <!-- LEFT SECTION -->
+      <div class="bus-left">
+  <h3 class="bus-name">{{ bus.busName }}</h3>
+
+  <p class="bus-route">
+    {{ bus.source }} → {{ bus.destination }}
+  </p>
+  
+
+  <!-- ✅ Professional Time -->
+  <p class="bus-time">
+    🕒 <strong>{{ formatTime(bus.departureTime) }}</strong>
+  </p>
+
+  <!-- ✅ Bus Type Badge -->
+  <p class="bus-type" [ngClass]="getBusTypeClass(bus.busType)">
+    Bus Type : {{ bus.busType }}
+  </p>
+</div>
+
+      <!-- MIDDLE SECTION -->
+      <div class="bus-middle">
+  <p class="bus-duration">
+    🕒 {{ getFormattedDate(bus.journeyDate) }}
+  </p>
+</div>
+
+      <!-- RIGHT SECTION -->
+      <div class="bus-right">
+        <h2 class="price">₹{{ bus.price }}</h2>
+        <button (click)="selectBus(bus)" class="book-btn">
+          Select Seat
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #noData>
+  <div class="no-data-container">
+
+    <div class="emoji">🚌💨</div>
+
+    <h2>No buses found</h2>
+
+    <p class="route">
+      <strong>{{ source }}</strong> → <strong>{{ destination }}</strong>
+    </p>
+
+    <p class="date">
+      on {{ selectedDate | date:'fullDate' }}
+    </p>
+
+    <p class="suggestion">
+      Try another date or explore nearby options
+    </p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions">
+
+      <button class="primary-btn" (click)="searchTomorrow()">
+        Check Tomorrow
+      </button>
+
+      <button class="secondary-btn" (click)="searchDayAfter()">
+        Day After
+      </button>
+
+      <button class="outline-btn" (click)="goBack()">
+        Change Route
+      </button>
+
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <div class="loader"></div>
+    <p>Searching buses for your journey...</p>
+  </div>
+</ng-template>

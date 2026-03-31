@@ -1,0 +1,17 @@
+package com.busbooking.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "seats")
+public class Seats {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long seatId;
+
+    private String seatNumber;
+    
+    
+
+}

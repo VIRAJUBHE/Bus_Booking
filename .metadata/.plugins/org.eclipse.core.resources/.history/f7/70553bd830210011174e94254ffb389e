@@ -1,0 +1,8 @@
+package com.busbooking.entity;
+
+public class User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+}

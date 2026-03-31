@@ -1,0 +1,29 @@
+package com.busbooking.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "seats")
+public class Seats {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long seatId;
+
+    private String seatNumber;
+    
+    @ManyToOne
+    @JoinColumn(name = "bus_id")
+    private Bus bus;
+
+    @OneToMany(mappedBy = "seat")
+    private List<BookingSeat> bookingSeats;
+
+	public Seats() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+
+}

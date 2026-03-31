@@ -1,0 +1,22 @@
+<div class="payment-container">
+
+  <h2>Payment Summary</h2>
+
+  <div class="summary-box">
+    <p><strong>Bus ID:</strong> {{ bookingData.busId }}</p>
+    <p><strong>Seats:</strong> {{ bookingData.seats.join(', ') }}</p>
+    <p><strong>Total Amount:</strong> ₹{{ bookingData.totalPrice }}</p>
+    <p class="secure">🔒 Secure Payment (Demo Only)</p>
+  </div>
+
+  <div class="payment-methods">
+    <h3>Select Payment Method</h3>
+
+    <label><input type="radio" name="payment"> UPI</label><br>
+    <label><input type="radio" name="payment"> Card</label><br>
+    <label><input type="radio" name="payment"> Net Banking</label>
+  </div>
+
+  <button class="pay-btn" (click)="payNow()">Pay Now</button>
+
+</div>
